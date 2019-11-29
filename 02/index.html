@@ -1,0 +1,27 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>VueJS</title>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="counter+=10">+</button>
+      <button @click="counter--">-</button>
+      <p>
+        {{counter}} is {{ counter > 20 ? 'greater then 20' : 'smaller then 20'
+        }}
+      </p>
+      <p @mousemove="updateCoordinates">
+        Coordinates: {{ x }} / {{ y }} -
+        <span @mousemove.stop="">DEAD SPOT </span>
+      </p>
+      <input type="text" @blur="alertMe" />
+      <input type="text" @keyup.enter="alertMe" />
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
