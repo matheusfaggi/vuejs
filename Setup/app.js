@@ -1,13 +1,19 @@
 new Vue({
   el: "#app",
   data: {
-    isPlaying: false,
+    gameIsRunning: false,
     log: {},
     monsterLife: 100,
     yourLife: 100,
     log: []
   },
   methods: {
+    toogleRunningGame: function() {
+      this.gameIsRunning = !this.gameIsRunning;
+      this.monsterLife = 100;
+      this.yourLife = 100;
+      this.log = [];
+    },
     healthBar: function(person) {
       return {
         backgroundColor: person === "you" ? "green" : "red",
