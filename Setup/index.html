@@ -46,9 +46,9 @@
       <section class="row log">
         <div class="small-12 columns">
           <ul>
-            <li v-for="event in log" :style="{color: event.color}">
+            <li v-for="event in log" :class="event.class">
               <template v-if="event.type == 'attack'">
-                {{`${event.person} hits ${event.damage} in ${event.target} `}}
+                {{`${event.person} hits ${event.target} for ${event.damage}`}}
               </template>
               <template v-else>
                 {{`You heal ${event.heal} `}}

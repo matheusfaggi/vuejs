@@ -30,14 +30,14 @@ new Vue({
         person: "you",
         target: "monster",
         damage: damage,
-        color: "green"
+        class: "monster-turn"
       });
       this.log.push({
         type: "attack",
         person: "monster",
         target: "you",
         damage: selfDamage,
-        color: "red"
+        class: "player-turn"
       });
 
       if (this.yourLife <= 0) {
@@ -52,10 +52,15 @@ new Vue({
       var heal = Math.round(Math.random() * (10 - 0) + 0);
       var selfDamage = Math.round(Math.random() * (heal - 0) + 0);
       this.yourLife += heal - selfDamage;
-      this.yourLife = this.yourLife >= 100 ? 100 : this.yourLife;
+      if (this.yourLife >= 100) {
+        this.yourLife = 100;
+        alert("Your life is full");
+        return;
+      }
       this.log.push({
         type: "heal",
-        heal: heal - selfDamage
+        heal: heal - selfDamage,
+        class: "heal-turn"
       });
     }
   },
@@ -63,6 +68,7 @@ new Vue({
     isPlaying: function() {
       this.monsterLife = 100;
       this.yourLife = 100;
+      this.log = [];
     }
   }
 });
