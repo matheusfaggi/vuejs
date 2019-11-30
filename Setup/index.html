@@ -13,7 +13,7 @@
           <h1 class="text-center">YOU</h1>
           <div class="healthbar">
             <div class="healthbar text-center" :style="healthBar('you')">
-              {{ yourLife }}
+              {{ playerHealth }}
             </div>
           </div>
         </div>
@@ -21,14 +21,14 @@
           <h1 class="text-center">MONSTER</h1>
           <div class="healthbar">
             <div class="healthbar text-center" :style="healthBar('monster')">
-              {{ monsterLife }}
+              {{ monsterHealth }}
             </div>
           </div>
         </div>
       </section>
       <section class="row controls" v-show="!gameIsRunning">
         <div class="small-12 columns">
-          <button id="start-game" @click="toogleRunningGame">
+          <button id="start-game" @click="startGame">
             START NEW GAME
           </button>
         </div>
@@ -40,7 +40,7 @@
             SPECIAL ATTACK
           </button>
           <button id="heal" @click="heal">HEAL</button>
-          <button id="give-up" @click="toogleRunningGame">GIVE UP</button>
+          <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
       </section>
       <section class="row log">

@@ -3,33 +3,36 @@ new Vue({
   data: {
     gameIsRunning: false,
     log: {},
-    monsterLife: 100,
-    yourLife: 100,
+    monsterHealth: 100,
+    playerHealth: 100,
     log: []
   },
   methods: {
-    toogleRunningGame: function() {
-      this.gameIsRunning = !this.gameIsRunning;
-      this.monsterLife = 100;
-      this.yourLife = 100;
+    startGame: function() {
+      this.gameIsRunning = true;
+      this.monsterHealth = 100;
+      this.playerHealth = 100;
       this.log = [];
+    },
+    giveUp: function() {
+      this.gameIsRunning = false;
     },
     healthBar: function(person) {
       return {
         backgroundColor: person === "you" ? "green" : "red",
         margin: 0,
         color: "white",
-        width: person === "you" ? this.yourLife + "%" : this.monsterLife + "%"
+        width:
+          person === "you" ? this.playerHealth + "%" : this.monsterHealth + "%"
       };
     },
     attack: function(isSpecial = false) {
       var damage = Math.round(Math.random() * (isSpecial ? 15 : 10 - 0) + 0);
       var selfDamage = Math.round(Math.random() * (damage + 2 - 0) + 0);
-      console.log(damage);
-      console.log(`${selfDamage > damage ? "tomo preju" : "saiu no lucro"}`);
 
-      this.yourLife -= selfDamage;
-      this.monsterLife -= damage;
+      this.playerHealth -= selfDamage;
+      this.monsterHealth -= damage;
+      if (this.checkWin()) return;
 
       this.log.push({
         type: "attack",
@@ -45,21 +48,13 @@ new Vue({
         damage: selfDamage,
         class: "player-turn"
       });
-
-      if (this.yourLife <= 0) {
-        this.isPlaying = !this.isPlaying;
-        alert("Você perdeu ! :( ");
-      } else if (this.monsterLife <= 0) {
-        this.isPlaying = !this.isPlaying;
-        alert("Você ganhou!! :) ");
-      }
     },
     heal: function() {
       var heal = Math.round(Math.random() * (10 - 0) + 0);
       var selfDamage = Math.round(Math.random() * (heal - 0) + 0);
-      this.yourLife += heal - selfDamage;
-      if (this.yourLife >= 100) {
-        this.yourLife = 100;
+      this.playerHealth += heal - selfDamage;
+      if (this.playerHealth >= 100) {
+        this.playerHealth = 100;
         alert("Your life is full");
         return;
       }
@@ -68,12 +63,24 @@ new Vue({
         heal: heal - selfDamage,
         class: "heal-turn"
       });
+    },
+    checkWin: function() {
+      if (this.monsterHealth <= 0) {
+        if (confirm("You won, wanna play again?")) this.startGame();
+        else this.giveUp();
+        return true;
+      } else if (this.playerHealth <= 0) {
+        if (confirm("You lost, wanna play again?")) this.startGame();
+        else this.giveUp();
+        return true;
+      }
+      return false;
     }
   },
   watch: {
     isPlaying: function() {
-      this.monsterLife = 100;
-      this.yourLife = 100;
+      this.monsterHealth = 100;
+      this.playerHealth = 100;
       this.log = [];
     }
   }
